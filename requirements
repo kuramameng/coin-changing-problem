@@ -1,0 +1,14 @@
+Write a JavaScript or EcmaScript6 program to simulate a cash register clerk who makes change.  
+
+Its one function should be to take a purchase price and a payment amount and return the change using all of the US dollar denominations $20 and less including pennies, nickels, dimes, quarters, and fifty cent pieces.  
+
+Assume that there is a limited supply (possibly zero) of each denomination 
+to draw from in your register and that the change will include the minimum amount of each denomination needed.  
+
+For example, a payment of $1.00 for a purchase of $0.89 will return 
+change of a dime and a penny, or if there are no dimes, then two nickels and a penny.
+
+Replenish the available currency stock from the payments and simulate a series of transactions 
+to show multiple scenarios.
+ 
+You should include a simple browser UI for accessing your program.

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    th, td {
+        border: 1px solid black;
+        margin: 5px;
+    }
+    #result {
+        width: 300px;
+        height: 50px;
+    }
+</style>
+<body>
+    <form id="form">
+        <div>
+            <label>Price: $</label>
+            <input type="text" name="price" class="form-control">
+        </div>
+        <div>
+            <label>Payment: $</label>
+            <input type="text" name="payment" class="form-control">
+        </div>
+            <div>
+                <input name="register" class="btn btn-action" type="submit" value="Make Payment"></input>
+            </div>
+    </form>
+    <br>
+    <div>
+        <table>
+        <thead>
+            <tr>Currency Stock:</tr>
+        </thead>
+            <tr>
+                <td>$20</td>
+                <td>$10</td>
+                <td>$5</td>
+                <td>$1</td>
+                <td>50 cent</td>
+                <td>25 cent</td>
+                <td>10 cent</td>
+                <td>5 cent</td>
+                <td>1 cent</td>
+            </tr>
+            <tr class="currency-stock">
+            </tr>
+        </table>
+        <button type="button" id="replenish">replenish</button>
+    </div>
+    <br>
+    <div>Result:</div>
+    <div>
+        <textarea id="result"></textarea>
+    </div>
+    <!-- scripts -->
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="function.js"></script>
+</body>
+
+</html>
