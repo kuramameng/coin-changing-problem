@@ -14,7 +14,7 @@ var initStock = {'2000': 20,'1000': 20,'500': 20,'100': 20,'50': 20,'25': 20,'10
 
 var currencies = [2000, 1000, 500, 100, 50, 25, 10, 5, 1];
 
-var findChange = function (cents){
+var calChange = function (cents){
     var count = {};
     currencies.forEach(function(currency){
         if (cents > 0) {
@@ -33,7 +33,6 @@ var updateStock = function(count, payment){
   for (var key in count){
     update[key] -= count[key];
   }
-
   // replenish change based on the payment amount
   currencies.forEach(function(currency){
     if (parseInt(payment/currency) !== 0){
@@ -42,6 +41,25 @@ var updateStock = function(count, payment){
     }
   })
   return update;
+}
+
+var displayChange = function(count){
+  $(".minus-change").html("");
+  for (var key in count){
+    $(".minus-change").append("<td id='" + key + "' style='color: red;'>-" + count[key] + "</td>");
+  }
+}
+
+var displayRep = function(payment){
+  $(".plus-payment").html("");
+  var rep = {};
+  currencies.forEach(function(currency){
+    rep[currency] = parseInt(payment/currency);
+    payment -= parseInt(payment/currency)*currency;
+  })
+  for (var key in rep){
+    $(".plus-payment").append("<td id='" + key + "' style='color: green;'>+" + rep[key] + "</td>");
+  }
 }
 
 var displayStock = function(stock){
@@ -61,10 +79,12 @@ $(document).ready(function(){
 
   $("#form").on("submit", function(e){
     e.preventDefault();
+
     var form = form2object(this);
     var price = Number(form.price).toFixed(2)*100;
     var payment = Number(form.payment).toFixed(2)*100;
     var change = payment-price;
+
     if (isNaN(price) || isNaN(payment)) {
       alert("Please enter valid number!");
     }
@@ -72,8 +92,10 @@ $(document).ready(function(){
       alert("You don't have enough money to buy!");
     }
     else{
-      var changeCount = findChange(change);
+      var changeCount = calChange(change);
       displayStock(updateStock(changeCount,payment));
+      displayChange(changeCount);
+      displayRep(payment);
       displayResult(changeCount);
     }
   })
