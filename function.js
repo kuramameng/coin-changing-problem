@@ -48,7 +48,7 @@ var progressiveChange = function(change, count){
     if(change >= 10 && initStock['10'] > 0) {initStock['10']--;count['10']++;change = change - 10;continue;}
     if(change >= 5 && initStock['5'] > 0) {initStock['5']--;count['5']++;change = change - 5;continue;}
     if(change >= 1 && initStock['1'] > 0) {initStock['1']--;count['1']++;change = change - 1;continue;}
-    // if(change > 0 && initStock['1'] == 0) {alert("I don't have enough change"); break;}
+    if(change > 0 && initStock['1'] == 0) {alert("I don't have enough change"); break;}
   }
 }
 
