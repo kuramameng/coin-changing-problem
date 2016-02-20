@@ -10,37 +10,44 @@ var form2object = function(form) {
 };
 
 // define initial stock
-var initStock = {'2000': 20,'1000': 20,'500': 20,'100': 20,'50': 20,'25': 20,'10': 20,'5': 20,'1': 20};
+var initAmount = 20;
+
+var initStock = {'2000': initAmount,'1000': initAmount,'500': initAmount,'100': initAmount,'50': initAmount,'25': initAmount,'10': initAmount,'5': initAmount,'1': initAmount};
 
 var currencies = [2000, 1000, 500, 100, 50, 25, 10, 5, 1];
 
-var calChange = function (cents){
+var calChange = function (change){
     var count = {};
     currencies.forEach(function(currency){
-        if (cents > 0) {
-          count[currency] = parseInt(cents/currency);
+        // determin if there's the best solution, if there's not enough coins, find the second best solution
+        if (change > 0 && initStock[currency] >= parseInt(change/currency)) {
+          count[currency] = parseInt(change/currency);
         } else {
           count[currency] = 0;
         }
-        cents -= count[currency]*currency;
+        change -= count[currency]*currency;
     })
     return count;
 }
 
 var updateStock = function(count, payment){
-  var update = initStock;
+  // var update = initStock;
   // substract change
   for (var key in count){
-    update[key] -= count[key];
+    // update[key] -= count[key];
+    initStock[key] -= count[key];
   }
   // replenish change based on the payment amount
   currencies.forEach(function(currency){
     if (parseInt(payment/currency) !== 0){
-        update[currency] += parseInt(payment/currency);
+        // update[currency] += parseInt(payment/currency);
+        initStock[currency] += parseInt(payment/currency);
+
         payment -= parseInt(payment/currency)*currency;
     }
   })
-  return update;
+  // return update;
+  return initStock;
 }
 
 var displayChange = function(count){
