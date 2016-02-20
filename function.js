@@ -38,7 +38,7 @@ var calChange = function (change){
 }
 
 var progressiveChange = function(change, count){
-  while (change > 0){
+  while (change >= 0){
     if(change >= 2000 && initStock['2000'] > 0) {initStock['2000']--;count['2000']++;change -= 2000;continue;}
     if(change >= 1000 && initStock['1000'] > 0) {initStock['1000']--;count['1000']++;change -= 1000;continue;}
     if(change >= 500 && initStock['500'] > 0) {initStock['500']--;count['500']++;change -= 500;continue;}
