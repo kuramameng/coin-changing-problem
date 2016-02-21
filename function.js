@@ -17,27 +17,28 @@ var initStock = {'2000': initAmount,'1000': initAmount,'500': initAmount,'100': 
 var currencies = [2000, 1000, 500, 100, 50, 25, 10, 5, 1];
 
 var calChange = function (change){
-  var count = {'2000': 0,'1000': 0,'500': 0,'100': 0,'50': 0,'25': 0,'10': 0,'5': 0,'1': 0};;
-  currencies.forEach(function(currency){
-    // determin if there's the best solution
-    if (change > 0 && initStock[currency] >= parseInt(change/currency)) {
-      count[currency] = parseInt(change/currency);
-      change -= count[currency]*currency;
-    } else if (initStock[currency] < parseInt(change/currency) && initStock[currency] > 0){
-      count[currency] = initStock[currency];
-      change -= initStock[currency]*currency;
-    } else {
-      count[currency] = 0;
-    }
-  })
-  // update initStock
-  for (var key in count){
-    initStock[key] -= count[key];
-  }
-  return count;
+  var count = {'2000': 0,'1000': 0,'500': 0,'100': 0,'50': 0,'25': 0,'10': 0,'5': 0,'1': 0};
+    currencies.forEach(function(currency){
+      // determin if there's the best solution
+      if (change > 0 && initStock[currency] >= parseInt(change/currency)) {
+        count[currency] = parseInt(change/currency);
+        change -= count[currency]*currency;
+      } else if (initStock[currency] < parseInt(change/currency) && initStock[currency] > 0){
+        count[currency] = initStock[currency];
+        change -= initStock[currency]*currency;
+      } else {
+        count[currency] = 0;
+      }
+    })
+    return count;
 }
 
 var updateStock = function(count, payment){
+
+    for (var key in count){
+      initStock[key] -= count[key];
+    }
+
   // replenish change based on the payment amount
   currencies.forEach(function(currency){
     if (parseInt(payment/currency) !== 0){
@@ -100,7 +101,8 @@ $(document).ready(function(){
     }
     else{
       var changeCount = calChange(change);
-      displayStock(updateStock(changeCount,payment));
+      updateStock(changeCount,payment);
+      displayStock(initStock);
       displayChange(changeCount);
       displayRep(payment);
       displayResult(changeCount);
