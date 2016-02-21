@@ -9,11 +9,10 @@ var form2object = function(form) {
   return data;
 };
 
-// define initial stock
+// define initial stock with starting number of coins
 var initAmount = 20;
-
 var initStock = {'2000': initAmount,'1000': initAmount,'500': initAmount,'100': initAmount,'50': initAmount,'25': initAmount,'10': initAmount,'5': initAmount,'1': initAmount};
-
+// define value for each coin for calChange function
 var currencies = [2000, 1000, 500, 100, 50, 25, 10, 5, 1];
 
 var calChange = function (change){
@@ -23,7 +22,9 @@ var calChange = function (change){
       if (change > 0 && initStock[currency] >= parseInt(change/currency)) {
         count[currency] = parseInt(change/currency);
         change -= count[currency]*currency;
-      } else if (initStock[currency] < parseInt(change/currency) && initStock[currency] > 0){
+      }
+      // if there's no best solution, substract the available starting coin and move on to the coin with less value
+      else if (initStock[currency] < parseInt(change/currency) && initStock[currency] > 0){
         count[currency] = initStock[currency];
         change -= initStock[currency]*currency;
       } else {
@@ -34,17 +35,15 @@ var calChange = function (change){
 }
 
 var updateStock = function(count, payment){
-
-    for (var key in count){
-      initStock[key] -= count[key];
-    }
-
+  // compare count and initStock objs, and update initStock
+  for (var key in count){
+    initStock[key] -= count[key];
+  }
   // replenish change based on the payment amount
   currencies.forEach(function(currency){
     if (parseInt(payment/currency) !== 0){
         // update[currency] += parseInt(payment/currency);
         initStock[currency] += parseInt(payment/currency);
-
         payment -= parseInt(payment/currency)*currency;
     }
   })
@@ -83,23 +82,21 @@ var displayResult = function(count){
 }
 
 $(document).ready(function(){
+  // initial rendering of starting condition
   displayStock(initStock);
-
   $("#form").on("submit", function(e){
     e.preventDefault();
-
+    // obtain values user type into the form
     var form = form2object(this);
     var price = Number(form.price).toFixed(2)*100;
     var payment = Number(form.payment).toFixed(2)*100;
     var change = payment-price;
-
+    // check NaN and not enough payment conditions
     if (isNaN(price) || isNaN(payment)) {
       alert("Please enter valid number!");
-    }
-    else if (change < 0) {
+    } else if (change < 0) {
       alert("You don't have enough money to buy!");
-    }
-    else{
+    } else{
       var changeCount = calChange(change);
       updateStock(changeCount,payment);
       displayStock(initStock);
