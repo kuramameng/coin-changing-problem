@@ -77,8 +77,8 @@ var displayStock = function(stock){
   }
 }
 
-var displayResult = function(count){
-  $("#result").html("Here is your change:\nPennies: " + count['1'] + "\nNickels: " + count['5'] + "\nDimes: " + count['10'] + "\nQuarters: " + count['25'] + "\nFifty cents: " + count['50'] + "\n$1: " + count['100'] + "\n$5: " + count['500'] + "\n$10: " + count['1000'] + "\n$20: " + count['2000']);
+var displayResult = function(count, change){
+  $("#result").html("Your change total: $" + (change/100).toFixed(2) + "\n\nHere is your change:\nPennies: " + count['1'] + "\nNickels: " + count['5'] + "\nDimes: " + count['10'] + "\nQuarters: " + count['25'] + "\nFifty cents: " + count['50'] + "\n$1: " + count['100'] + "\n$5: " + count['500'] + "\n$10: " + count['1000'] + "\n$20: " + count['2000']);
 }
 
 $(document).ready(function(){
@@ -102,7 +102,7 @@ $(document).ready(function(){
       displayStock(initStock);
       displayChange(changeCount);
       displayRep(payment);
-      displayResult(changeCount);
+      displayResult(changeCount, change);
     }
   })
 })
