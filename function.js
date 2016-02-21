@@ -22,34 +22,19 @@ var calChange = function (change){
     // determin if there's the best solution
     if (change > 0 && initStock[currency] >= parseInt(change/currency)) {
       count[currency] = parseInt(change/currency);
+      change -= count[currency]*currency;
     } else if (initStock[currency] < parseInt(change/currency) && initStock[currency] > 0){
-      progressiveChange(change, count);
-      return count;
+      count[currency] = initStock[currency];
+      change -= initStock[currency]*currency;
     } else {
       count[currency] = 0;
     }
-    change -= count[currency]*currency;
   })
   // update initStock
   for (var key in count){
     initStock[key] -= count[key];
   }
   return count;
-}
-
-var progressiveChange = function(change, count){
-  while (change > 0){
-    if(change >= 2000 && initStock['2000'] > 0) {initStock['2000']--;count['2000']++;change -= 2000;continue;}
-    if(change >= 1000 && initStock['1000'] > 0) {initStock['1000']--;count['1000']++;change -= 1000;continue;}
-    if(change >= 500 && initStock['500'] > 0) {initStock['500']--;count['500']++;change -= 500;continue;}
-    if(change >= 100 && initStock['100'] > 0) {initStock['100']--;count['100']++;change -= 100;continue;}
-    if(change >= 50 && initStock['50'] > 0) {initStock['50']--;count['50']++;change -= 50;continue;}
-    if(change >= 25 && initStock['25'] > 0) {initStock['25']--;count['25']++;change = change - 25;continue;}
-    if(change >= 10 && initStock['10'] > 0) {initStock['10']--;count['10']++;change = change - 10;continue;}
-    if(change >= 5 && initStock['5'] > 0) {initStock['5']--;count['5']++;change = change - 5;continue;}
-    if(change >= 1 && initStock['1'] > 0) {initStock['1']--;count['1']++;change = change - 1;continue;}
-    // if(change > 0 && initStock['1'] == 0) {alert("I don't have enough change"); break;}
-  }
 }
 
 var updateStock = function(count, payment){
